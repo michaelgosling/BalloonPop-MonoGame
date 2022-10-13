@@ -1,0 +1,1 @@
+Port of old code to MonoGame 3.8.1 Cross-Platform OpenGL Desktop project. Goal is to make it easily buildable on modern OS with .NET 6, and improve experience of potential further development.
