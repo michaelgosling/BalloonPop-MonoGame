@@ -194,6 +194,7 @@ public class StageScreen : IScreen
 		if (color5Matched > 0) scoreManager.IncrementScore(color5Matched);
 		if (color6Matched > 0) scoreManager.IncrementScore(color6Matched);
 
+		// TODO: Calculate fall chain based on balloons attached only to a disappearing balloon
 		// List<int> fallChain = new List<int>();
 		for (int i = lvlBalloons.Count - 1; i >= 0; i--)
 		{
@@ -286,6 +287,7 @@ public class StageScreen : IScreen
 	/// <returns>Balloon</returns>
 	Balloon CreateBalloon(BalloonColor color, int x, int y)
 	{
+		// TODO: Rather than a switch, just use color param as the index
 		Texture2D sprite = balloonSprites[0];
 		switch (color)
 		{
