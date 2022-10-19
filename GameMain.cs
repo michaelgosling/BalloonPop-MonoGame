@@ -23,7 +23,7 @@ public class GameMain : Game
 	Level currentLevel;
 	IScreen currentScreen;
 	PlayerPalette playerPalette;
-	ScoreManager scoreKeeper = new ScoreManager();
+	ScoreManager scoreManager = new ScoreManager();
 
 	/** Properties */
 	GameState State { get; set; }
@@ -134,15 +134,15 @@ public class GameMain : Game
 		}
 		else if (this.State == GameState.Playing)
 		{
-			currentScreen = new StageScreen(Level.First, balloonSprites, borderBrush, scoreFont, scoreKeeper, playerCannon, this);
+			currentScreen = new StageScreen(Level.First, balloonSprites, borderBrush, scoreFont, scoreManager, playerCannon, this);
 		}
 		else if (this.State == GameState.ScoreWin)
 		{
-			currentScreen = new ScoreScreen(true, scoreKeeper, titleFont, scoreFont, this);
+			currentScreen = new ScoreScreen(true, scoreManager, titleFont, scoreFont, this);
 		}
 		else if (this.State == GameState.ScoreFail)
 		{
-			currentScreen = new ScoreScreen(false, scoreKeeper, titleFont, scoreFont, this);
+			currentScreen = new ScoreScreen(false, scoreManager, titleFont, scoreFont, this);
 		}
 	}
 }

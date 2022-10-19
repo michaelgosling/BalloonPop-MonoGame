@@ -32,7 +32,7 @@ public class StageScreen : IScreen
 	/// <param name="balloonSprites">Sprites of the balloons</param>
 	/// <param name="borderBrush">Brush to use for border</param>
 	/// <param name="font">Font to use for score</param>
-	/// <param name="scoreManager">ScoreKeeper</param>
+	/// <param name="scoreManager">ScoreManager</param>
 	/// <param name="player">Player cannon</param>
 	/// <param name="game">Reference to Game</param>
 	public StageScreen(Level level, Texture2D[] balloonSprites, Texture2D borderBrush,
