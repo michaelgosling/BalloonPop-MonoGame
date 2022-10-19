@@ -12,6 +12,9 @@ namespace BalloonPop.Screens;
 public class StageScreen : IScreen
 {
 	/** Fields */
+	private const int SCORE_TEXT_Y = 10;
+	private const int CONTROLS_TEXT_Y = SCORE_TEXT_Y + 50;
+	private const string CONTROLS_TEXT = "Space:\n Shoot\n\nLeft & Right Arrows:\n Rotate Cannon\n\nZ:\n Swap Balloon";
 	private List<Balloon> lvlBalloons = new List<Balloon>();
 	private Texture2D[] balloonSprites;
 	private Texture2D borderBrush;
@@ -19,11 +22,14 @@ public class StageScreen : IScreen
 	private Rectangle balloonDimens;
 	private Cannon player;
 	private ScoreManager scoreManager;
-	private Vector2 scoreTextPos = new Vector2(10, 10);
-	private SpriteFont font;
+	private Vector2 scoreTextPos = new Vector2(10, SCORE_TEXT_Y);
+	private Vector2 controlsTextPos = new Vector2(10, CONTROLS_TEXT_Y);
+	private SpriteFont scoreFont;
+	private SpriteFont controlInfoFont;
 	private Random rand = new Random();
 	private GameMain game;
 	bool swapBalloonKeyPressed = false;
+
 
 	/// <summary>
 	/// Constructor
@@ -31,17 +37,19 @@ public class StageScreen : IScreen
 	/// <param name="level">Current Level to Load</param>
 	/// <param name="balloonSprites">Sprites of the balloons</param>
 	/// <param name="borderBrush">Brush to use for border</param>
-	/// <param name="font">Font to use for score</param>
-	/// <param name="scoreManager">ScoreKeeper</param>
+	/// <param name="scoreFont">Font to use for score</param>
+	/// <param name="scoreManager">ScoreManager</param>
 	/// <param name="player">Player cannon</param>
 	/// <param name="game">Reference to Game</param>
+	/// <param name="controlInfoFont">Font to use for controls info</param>
 	public StageScreen(Level level, Texture2D[] balloonSprites, Texture2D borderBrush,
-			SpriteFont font, ScoreManager scoreManager, Cannon player, GameMain game)
+			SpriteFont scoreFont, ScoreManager scoreManager, Cannon player, GameMain game, SpriteFont controlInfoFont)
 	{
 		this.player = player;
 		this.balloonSprites = balloonSprites;
 		this.borderBrush = borderBrush;
-		this.font = font;
+		this.scoreFont = scoreFont;
+		this.controlInfoFont = controlInfoFont;
 		this.scoreManager = scoreManager;
 		this.game = game;
 
@@ -194,6 +202,7 @@ public class StageScreen : IScreen
 		if (color5Matched > 0) scoreManager.IncrementScore(color5Matched);
 		if (color6Matched > 0) scoreManager.IncrementScore(color6Matched);
 
+		// TODO: Calculate fall chain based on balloons attached only to a disappearing balloon
 		// List<int> fallChain = new List<int>();
 		for (int i = lvlBalloons.Count - 1; i >= 0; i--)
 		{
@@ -286,6 +295,7 @@ public class StageScreen : IScreen
 	/// <returns>Balloon</returns>
 	Balloon CreateBalloon(BalloonColor color, int x, int y)
 	{
+		// TODO: Rather than a switch, just use color param as the index
 		Texture2D sprite = balloonSprites[0];
 		switch (color)
 		{
@@ -357,13 +367,21 @@ public class StageScreen : IScreen
 
 		return false;
 	}
+
+
+	private void DrawControls(SpriteBatch spriteBatch) {
+		spriteBatch.DrawString(controlInfoFont, CONTROLS_TEXT, controlsTextPos, Color.White);
+	}
+
 	/// <summary>
 	/// Draw the screen
 	/// </summary>
 	/// <param name="spriteBatch"></param>
 	public void Draw(SpriteBatch spriteBatch)
 	{
-		spriteBatch.DrawString(font, "Score: " + scoreManager.CurrentScore, scoreTextPos, Color.White);
+		spriteBatch.DrawString(scoreFont, "Score: " + scoreManager.CurrentScore, scoreTextPos, Color.White);
+
+		DrawControls(spriteBatch);
 
 		// Draw play area border
 		DrawBorder(spriteBatch, Constants.PLAY_AREA, 1, Color.White);

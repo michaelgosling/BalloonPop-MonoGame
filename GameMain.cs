@@ -16,14 +16,14 @@ public class GameMain : Game
 	/** Fields */
 	GraphicsDeviceManager graphics;
 	SpriteBatch spriteBatch;
-	SpriteFont scoreFont, titleFont, subtitleFont;
+	SpriteFont scoreFont, titleFont, subtitleFont, controlInfoFont;
 	Texture2D borderBrush;
 	Texture2D[] balloonSprites = new Texture2D[6];
 	Cannon playerCannon;
 	Level currentLevel;
 	IScreen currentScreen;
 	PlayerPalette playerPalette;
-	ScoreManager scoreKeeper = new ScoreManager();
+	ScoreManager scoreManager = new ScoreManager();
 
 	/** Properties */
 	GameState State { get; set; }
@@ -80,6 +80,7 @@ public class GameMain : Game
 		scoreFont = this.Content.Load<SpriteFont>("fonts/Score");
 		titleFont = this.Content.Load<SpriteFont>("fonts/Title");
 		subtitleFont = this.Content.Load<SpriteFont>("fonts/Subtitle");
+		controlInfoFont = this.Content.Load<SpriteFont>("fonts/ControlInfo");
 
 		// create a new 2D Texture, 1x1 pixels, White in color and color as the format.
 		// we use this for drawing the border later
@@ -134,15 +135,15 @@ public class GameMain : Game
 		}
 		else if (this.State == GameState.Playing)
 		{
-			currentScreen = new StageScreen(Level.First, balloonSprites, borderBrush, scoreFont, scoreKeeper, playerCannon, this);
+			currentScreen = new StageScreen(Level.First, balloonSprites, borderBrush, scoreFont, scoreManager, playerCannon, this, controlInfoFont);
 		}
 		else if (this.State == GameState.ScoreWin)
 		{
-			currentScreen = new ScoreScreen(true, scoreKeeper, titleFont, scoreFont, this);
+			currentScreen = new ScoreScreen(true, scoreManager, titleFont, scoreFont, this);
 		}
 		else if (this.State == GameState.ScoreFail)
 		{
-			currentScreen = new ScoreScreen(false, scoreKeeper, titleFont, scoreFont, this);
+			currentScreen = new ScoreScreen(false, scoreManager, titleFont, scoreFont, this);
 		}
 	}
 }
