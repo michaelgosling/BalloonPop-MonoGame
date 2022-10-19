@@ -16,7 +16,7 @@ public class GameMain : Game
 	/** Fields */
 	GraphicsDeviceManager graphics;
 	SpriteBatch spriteBatch;
-	SpriteFont scoreFont, titleFont, subtitleFont;
+	SpriteFont scoreFont, titleFont, subtitleFont, controlInfoFont;
 	Texture2D borderBrush;
 	Texture2D[] balloonSprites = new Texture2D[6];
 	Cannon playerCannon;
@@ -80,6 +80,7 @@ public class GameMain : Game
 		scoreFont = this.Content.Load<SpriteFont>("fonts/Score");
 		titleFont = this.Content.Load<SpriteFont>("fonts/Title");
 		subtitleFont = this.Content.Load<SpriteFont>("fonts/Subtitle");
+		controlInfoFont = this.Content.Load<SpriteFont>("fonts/ControlInfo");
 
 		// create a new 2D Texture, 1x1 pixels, White in color and color as the format.
 		// we use this for drawing the border later
@@ -134,7 +135,7 @@ public class GameMain : Game
 		}
 		else if (this.State == GameState.Playing)
 		{
-			currentScreen = new StageScreen(Level.First, balloonSprites, borderBrush, scoreFont, scoreManager, playerCannon, this);
+			currentScreen = new StageScreen(Level.First, balloonSprites, borderBrush, scoreFont, scoreManager, playerCannon, this, controlInfoFont);
 		}
 		else if (this.State == GameState.ScoreWin)
 		{
